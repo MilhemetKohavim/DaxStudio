@@ -25,10 +25,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.0.x'  # Specify the desired .NET version
 
@@ -39,7 +39,7 @@ jobs:
         dotnet test
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
 
     - name: Build CodeQL database
       run: |
@@ -50,7 +50,7 @@ jobs:
         codeql analyze --database=codeql-databasedaxstudio --format=sarif-latest --output=codeql-resultsdaxstudio.sarif
 
     - name: Upload SARIF results
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: codeql-resultsdaxstudio.sarif
       
