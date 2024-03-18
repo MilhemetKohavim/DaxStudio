@@ -25,32 +25,29 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.0.x'  # Specify the desired .NET version
 
-    - name: Build and test
-      run: |
-        dotnet restore
-        dotnet build
-        dotnet test
+   
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-
-    - name: Build CodeQL database
-      run: |
-        codeql database create --language=csharp --source-root=. --database=codeql-databasedaxtudio
-
-    - name: Analyze code
-      run: |
-        codeql analyze --database=codeql-databasedaxstudio --format=sarif-latest --output=codeql-resultsdaxstudio.sarif
-
-    - name: Upload SARIF results
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/init@v2
       with:
-        sarif_file: codeql-resultsdaxstudio.sarif
+          languages: csharp
+
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build and test
+      run: |
+        dotnet build --configuration Release
+    
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+
       
